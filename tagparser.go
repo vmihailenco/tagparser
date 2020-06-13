@@ -67,6 +67,12 @@ func (p *tagParser) parseKey() {
 		case '\'':
 			p.parseQuotedValue()
 			return
+                case '\\':
+                        if p.Valid() {
+                                c := p.Read()
+                                b = append(b, c)
+                        }
+                        continue
 		default:
 			b = append(b, c)
 		}
