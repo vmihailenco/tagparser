@@ -23,8 +23,9 @@ var tagTests = []struct {
 	{"hello:world,foo", "", map[string]string{"hello": "world", "foo": ""}},
 	{"hello:world,foo:bar", "", map[string]string{"hello": "world", "foo": "bar"}},
 	{"hello:'world1,world2'", "", map[string]string{"hello": "'world1,world2'"}},
-	{`hello:'D\'Angelo', foo:bar`, "", map[string]string{"hello": "'D'Angelo'", "foo": "bar"}},
+	{`hello:'D\'Angelo, esquire', foo:bar`, "", map[string]string{"hello": "'D'Angelo, esquire'", "foo": "bar"}},
 	{`hello:world('foo', 'bar')`, "", map[string]string{"hello": "world('foo', 'bar')"}},
+	{" hello, foo: bar ", "hello", map[string]string{"foo": "bar"}},
 }
 
 func TestTagParser(t *testing.T) {
