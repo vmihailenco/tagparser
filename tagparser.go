@@ -83,8 +83,14 @@ func (p *tagParser) parseKey() {
 }
 
 func (p *tagParser) parseValue() {
-	const quote = '\''
+	const doubleQuote = '"'
+	if c := p.Peek(); c == doubleQuote {
+		p.Skip(doubleQuote)
+		p.parseDoubleQuotedValue()
+		return
+	}
 
+	const quote = '\''
 	c := p.Peek()
 	if c == quote {
 		p.Skip(quote)
@@ -135,6 +141,31 @@ loop:
 		}
 	}
 	return b
+}
+
+func (p *tagParser) parseDoubleQuotedValue() {
+	const doubleQuote = '"'
+	var b []byte
+	for p.Valid() {
+		bb, ok := p.ReadSep(doubleQuote)
+		if !ok {
+			b = append(b, bb...)
+			break
+		}
+
+		if len(bb) > 0 && bb[len(bb)-1] == '\\' {
+			b = append(b, bb[:len(bb)-1]...)
+			continue
+		}
+
+		b = append(b, bb...)
+		break
+	}
+	p.setTagOption(p.key, string(b))
+	if p.Skip(',') {
+		p.Skip(' ')
+	}
+	p.parseKey()
 }
 
 func (p *tagParser) parseQuotedValue() {
