@@ -3,7 +3,7 @@ package parser
 import (
 	"bytes"
 
-	"github.com/vmihailenco/tagparser/internal"
+	"github.com/vmihailenco/tagparser/v2/internal"
 )
 
 type Parser struct {

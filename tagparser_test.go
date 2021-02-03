@@ -3,7 +3,7 @@ package tagparser_test
 import (
 	"testing"
 
-	"github.com/vmihailenco/tagparser"
+	"github.com/vmihailenco/tagparser/v2"
 )
 
 var tagTests = []struct {

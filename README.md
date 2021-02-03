@@ -8,7 +8,7 @@
 Install:
 
 ```shell
-go get -u github.com/vmihailenco/tagparser
+go get github.com/vmihailenco/tagparser/v2
 ```
 
 ## Quickstart
