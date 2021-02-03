@@ -11,5 +11,5 @@ func ExampleParse() {
 	fmt.Println(tag.Name)
 	fmt.Println(tag.Options)
 	// Output: some_name
-	// map[key:value key2:'complex value']
+	// map[key:value key2:complex value]
 }

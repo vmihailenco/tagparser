@@ -84,7 +84,6 @@ func (p *tagParser) parseKey() {
 
 func (p *tagParser) parseValue() {
 	const quote = '\''
-
 	c := p.Peek()
 	if c == quote {
 		p.Skip(quote)
@@ -139,10 +138,7 @@ loop:
 
 func (p *tagParser) parseQuotedValue() {
 	const quote = '\''
-
 	var b []byte
-	b = append(b, quote)
-
 	for p.Valid() {
 		bb, ok := p.ReadSep(quote)
 		if !ok {
@@ -150,6 +146,8 @@ func (p *tagParser) parseQuotedValue() {
 			break
 		}
 
+		// keep the escaped single-quote, and continue until we've found the
+		// one that isn't.
 		if len(bb) > 0 && bb[len(bb)-1] == '\\' {
 			b = append(b, bb[:len(bb)-1]...)
 			b = append(b, quote)
@@ -157,7 +155,6 @@ func (p *tagParser) parseQuotedValue() {
 		}
 
 		b = append(b, bb...)
-		b = append(b, quote)
 		break
 	}
 
@@ -166,16 +163,4 @@ func (p *tagParser) parseQuotedValue() {
 		p.Skip(' ')
 	}
 	p.parseKey()
-}
-
-func Unquote(s string) (string, bool) {
-	const quote = '\''
-
-	if len(s) < 2 {
-		return s, false
-	}
-	if s[0] == quote && s[len(s)-1] == quote {
-		return s[1 : len(s)-1], true
-	}
-	return s, false
 }
